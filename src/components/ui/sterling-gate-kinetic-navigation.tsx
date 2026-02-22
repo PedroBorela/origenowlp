@@ -223,7 +223,11 @@ export function Component() {
           <div className="container is--full">
             <nav className="nav-row nav-row--btn-only">
               <div className="nav-row__right">
-                <button className="nav-close-btn" onClick={toggleMenu} style={{ pointerEvents: 'auto' }}>
+                <button
+                  className="nav-close-btn"
+                  onClick={toggleMenu}
+                  style={{ pointerEvents: 'auto' }}
+                >
                   <div className="menu-button-text">
                     <p className="p-large">Menu</p>
                     <p className="p-large">Close</p>
