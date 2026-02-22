@@ -1,0 +1,13 @@
+node_modules
+dist
+.env
+.env.local
+*.log
+*.tsbuildinfo
+.claude/
+nul
+build_err*.txt
+build_utf8.txt
+css_error.txt
+err.txt
+err2.txt

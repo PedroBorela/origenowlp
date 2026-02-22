@@ -1,0 +1,216 @@
+@font-face {
+    font-family: 'Cobe Extra';
+    src: url('Cobe-ExtraBoldItalic.eot');
+    src: local('Cobe Extra Bold Italic'), local('Cobe-ExtraBoldItalic'),
+        url('Cobe-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-ExtraBoldItalic.woff2') format('woff2'),
+        url('Cobe-ExtraBoldItalic.woff') format('woff'),
+        url('Cobe-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-Bold.eot');
+    src: local('Cobe Bold'), local('Cobe-Bold'),
+        url('Cobe-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-Bold.woff2') format('woff2'),
+        url('Cobe-Bold.woff') format('woff'),
+        url('Cobe-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-BoldItalic.eot');
+    src: local('Cobe Bold Italic'), local('Cobe-BoldItalic'),
+        url('Cobe-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-BoldItalic.woff2') format('woff2'),
+        url('Cobe-BoldItalic.woff') format('woff'),
+        url('Cobe-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-Light.eot');
+    src: local('Cobe Light'), local('Cobe-Light'),
+        url('Cobe-Light.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-Light.woff2') format('woff2'),
+        url('Cobe-Light.woff') format('woff'),
+        url('Cobe-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-Thin.eot');
+    src: local('Cobe Thin'), local('Cobe-Thin'),
+        url('Cobe-Thin.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-Thin.woff2') format('woff2'),
+        url('Cobe-Thin.woff') format('woff'),
+        url('Cobe-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-Regular.eot');
+    src: local('Cobe'), local('Cobe-Regular'),
+        url('Cobe-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-Regular.woff2') format('woff2'),
+        url('Cobe-Regular.woff') format('woff'),
+        url('Cobe-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe Semi';
+    src: url('Cobe-SemiBoldItalic.eot');
+    src: local('Cobe Semi Bold Italic'), local('Cobe-SemiBoldItalic'),
+        url('Cobe-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-SemiBoldItalic.woff2') format('woff2'),
+        url('Cobe-SemiBoldItalic.woff') format('woff'),
+        url('Cobe-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-Medium.eot');
+    src: local('Cobe Medium'), local('Cobe-Medium'),
+        url('Cobe-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-Medium.woff2') format('woff2'),
+        url('Cobe-Medium.woff') format('woff'),
+        url('Cobe-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-LightItalic.eot');
+    src: local('Cobe Light Italic'), local('Cobe-LightItalic'),
+        url('Cobe-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-LightItalic.woff2') format('woff2'),
+        url('Cobe-LightItalic.woff') format('woff'),
+        url('Cobe-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-ThinItalic.eot');
+    src: local('Cobe Thin Italic'), local('Cobe-ThinItalic'),
+        url('Cobe-ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-ThinItalic.woff2') format('woff2'),
+        url('Cobe-ThinItalic.woff') format('woff'),
+        url('Cobe-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe Ultra';
+    src: url('Cobe-UltraLight.eot');
+    src: local('Cobe Ultra Light'), local('Cobe-UltraLight'),
+        url('Cobe-UltraLight.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-UltraLight.woff2') format('woff2'),
+        url('Cobe-UltraLight.woff') format('woff'),
+        url('Cobe-UltraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-Heavy.eot');
+    src: local('Cobe Heavy'), local('Cobe-Heavy'),
+        url('Cobe-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-Heavy.woff2') format('woff2'),
+        url('Cobe-Heavy.woff') format('woff'),
+        url('Cobe-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe Ultra';
+    src: url('Cobe-UltraLightItalic.eot');
+    src: local('Cobe Ultra Light Italic'), local('Cobe-UltraLightItalic'),
+        url('Cobe-UltraLightItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-UltraLightItalic.woff2') format('woff2'),
+        url('Cobe-UltraLightItalic.woff') format('woff'),
+        url('Cobe-UltraLightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe Semi';
+    src: url('Cobe-SemiBold.eot');
+    src: local('Cobe Semi Bold'), local('Cobe-SemiBold'),
+        url('Cobe-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-SemiBold.woff2') format('woff2'),
+        url('Cobe-SemiBold.woff') format('woff'),
+        url('Cobe-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-MediumItalic.eot');
+    src: local('Cobe Medium Italic'), local('Cobe-MediumItalic'),
+        url('Cobe-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-MediumItalic.woff2') format('woff2'),
+        url('Cobe-MediumItalic.woff') format('woff'),
+        url('Cobe-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-HeavyItalic.eot');
+    src: local('Cobe Heavy Italic'), local('Cobe-HeavyItalic'),
+        url('Cobe-HeavyItalic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-HeavyItalic.woff2') format('woff2'),
+        url('Cobe-HeavyItalic.woff') format('woff'),
+        url('Cobe-HeavyItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe';
+    src: url('Cobe-Italic.eot');
+    src: local('Cobe Italic'), local('Cobe-Italic'),
+        url('Cobe-Italic.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-Italic.woff2') format('woff2'),
+        url('Cobe-Italic.woff') format('woff'),
+        url('Cobe-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Cobe Extra';
+    src: url('Cobe-ExtraBold.eot');
+    src: local('Cobe Extra Bold'), local('Cobe-ExtraBold'),
+        url('Cobe-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('Cobe-ExtraBold.woff2') format('woff2'),
+        url('Cobe-ExtraBold.woff') format('woff'),
+        url('Cobe-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
