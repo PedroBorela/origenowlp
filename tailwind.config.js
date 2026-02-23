@@ -90,7 +90,6 @@ export default {
   			'gradient-glow-green': 'radial-gradient(ellipse at 50% 50%, rgba(116,30,168,0.08) 0%, transparent 60%)',
   			'gradient-card': 'linear-gradient(135deg, rgba(116,30,168,0.08) 0%, rgba(147,51,208,0.05) 100%)',
   			'gradient-hero': 'radial-gradient(ellipse at 30% 20%, rgba(116,30,168,0.2) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(147,51,208,0.1) 0%, transparent 50%)',
-  			noise: 'url(\\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\\")'
   		},
   		borderRadius: {
   			'2xl': '1rem',
