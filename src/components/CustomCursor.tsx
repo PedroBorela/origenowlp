@@ -20,10 +20,6 @@ export default function CustomCursor() {
 
         window.addEventListener('mousemove', updateCoordinates);
 
-        function getAngle(diffX: number, diffY: number) {
-            return (Math.atan2(diffY, diffX) * 180) / Math.PI;
-        }
-
         function getSqueeze(diffX: number, diffY: number) {
             const distance = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
             const maxSqueeze = 0.15;
@@ -40,7 +36,6 @@ export default function CustomCursor() {
             pos.x += diffX * speed;
             pos.y += diffY * speed;
 
-            const angle = getAngle(diffX, diffY);
             const squeeze = getSqueeze(diffX, diffY);
 
             const scale = `scale(${1 + squeeze}, ${1 - squeeze})`;

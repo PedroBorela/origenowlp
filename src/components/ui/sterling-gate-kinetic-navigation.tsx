@@ -8,8 +8,12 @@ if (typeof globalThis.window !== "undefined") {
   gsap.registerPlugin(CustomEase);
 }
 
+interface CleanableElement extends Element {
+  _cleanup?: () => void;
+}
+
 /** Extracted to reduce nesting depth inside useEffect/gsap.context/forEach */
-function setupShapeHover(item: Element, shapesContainer: Element | null) {
+function setupShapeHover(item: CleanableElement, shapesContainer: Element | null) {
   const shapeIndex = (item as HTMLElement).dataset.shape;
   const shape = shapesContainer?.querySelector(`.bg-shape-${shapeIndex}`);
 
@@ -38,7 +42,7 @@ function setupShapeHover(item: Element, shapesContainer: Element | null) {
   item.addEventListener("mouseenter", onEnter);
   item.addEventListener("mouseleave", onLeave);
 
-  (item as any)._cleanup = () => {
+  item._cleanup = () => {
     item.removeEventListener("mouseenter", onEnter);
     item.removeEventListener("mouseleave", onLeave);
   };
@@ -117,8 +121,7 @@ export function Component() {
         CustomEase.create("main", "0.65, 0.01, 0.05, 0.99");
         gsap.defaults({ ease: "main", duration: 0.7 });
       }
-    } catch (e) {
-      console.warn("CustomEase failed to load, falling back to default.", e);
+    } catch {
       gsap.defaults({ ease: "power2.out", duration: 0.7 });
     }
 
@@ -148,7 +151,7 @@ export function Component() {
       ctx.revert();
       if (containerRef.current) {
         const items = containerRef.current.querySelectorAll(".menu-list-item[data-shape]");
-        items.forEach((item: any) => item._cleanup?.());
+        items.forEach((item) => (item as CleanableElement)._cleanup?.());
       }
     };
   }, []);
@@ -203,7 +206,7 @@ export function Component() {
             <motion.img
               src="/logo_origenow.png"
               alt="OrigeNow"
-              className="h-10 sm:h-12 w-auto"
+              className="h-7 sm:h-9 w-auto"
               animate={{ opacity: [0.85, 1, 0.85] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               whileHover={{
@@ -362,7 +365,7 @@ export function Component() {
               <ul className="menu-list">
                 <li className="menu-list-item" data-shape="1">
                   <a href="#solucoes" className="nav-link w-inline-block" onClick={closeMenu}>
-                    <p className="nav-link-text">Soluções</p>
+                    <p className="nav-link-text">Sobre nós</p>
                     <div className="nav-link-hover-bg"></div>
                   </a>
                 </li>

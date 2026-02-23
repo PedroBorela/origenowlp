@@ -72,9 +72,9 @@ export default function Features() {
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4">
-              {features.map((feature, index) => (
+              {features.map((feature) => (
                 <div
-                  key={index}
+                  key={feature.title}
                   className="group flex gap-4 p-4 rounded-2xl hover:bg-surface-50/60 transition-all duration-300 cursor-default"
                 >
                   <div className="w-8 h-8 rounded-lg bg-neon-green/10 border border-neon-green/20 flex items-center justify-center flex-shrink-0 group-hover:bg-neon-green/20 transition-colors">

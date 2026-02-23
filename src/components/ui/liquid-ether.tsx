@@ -1043,11 +1043,11 @@ export default function LiquidEther({
           Mouse.dispose();
           if (Common.renderer) {
             const canvas = Common.renderer.domElement;
-            if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+            canvas?.remove();
             Common.renderer.dispose();
           }
-        } catch (_e) {
-          void 0;
+        } catch {
+          // Cleanup errors during disposal are non-critical
         }
       }
     }
@@ -1122,20 +1122,8 @@ export default function LiquidEther({
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      if (resizeObserverRef.current) {
-        try {
-          resizeObserverRef.current.disconnect();
-        } catch (_e) {
-          void 0;
-        }
-      }
-      if (intersectionObserverRef.current) {
-        try {
-          intersectionObserverRef.current.disconnect();
-        } catch (_e) {
-          void 0;
-        }
-      }
+      resizeObserverRef.current?.disconnect();
+      intersectionObserverRef.current?.disconnect();
       if (webglRef.current) {
         webglRef.current.dispose();
       }

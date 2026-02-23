@@ -22,9 +22,9 @@ export default function Clients() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 lg:gap-8">
-          {clients.map((client, index) => (
+          {clients.map((client) => (
             <div
-              key={index}
+              key={client.name}
               className="glass-card-hover flex items-center justify-center h-28 sm:h-32 w-40 sm:w-48 cursor-default group p-4 bg-white/50"
             >
               <img

@@ -35,18 +35,18 @@ export default function Blog() {
               <span className="text-gradient">Postagens</span>
             </h2>
           </div>
-          <a
-            href="#"
+          <button
+            type="button"
             className="btn-ghost group"
           >
             Ver todos
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </a>
+          </button>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts.map((post, index) => (
-            <article key={index} className="group bento-card cursor-pointer">
+          {posts.map((post) => (
+            <article key={post.title} className="group bento-card cursor-pointer">
               <div className="relative z-10">
                 {/* Image placeholder */}
                 <div className="relative rounded-2xl aspect-video mb-5 overflow-hidden bg-gradient-to-br from-neon-purple/10 to-neon-green/5 border border-surface-200/50">

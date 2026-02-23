@@ -24,9 +24,9 @@ export default function Stats() {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
+          {stats.map((stat) => (
             <div
-              key={index}
+              key={stat.label}
               className="bento-card text-center py-10 group hover:scale-[1.02] transition-transform duration-500"
             >
               <div className="relative z-10">

@@ -53,7 +53,7 @@ export default function FAQ() {
             const isOpen = openIndex === index
             return (
               <div
-                key={index}
+                key={faq.question}
                 className={`glass-card overflow-hidden transition-all duration-500 ${isOpen ? 'border-neon-purple/30' : ''
                   }`}
               >

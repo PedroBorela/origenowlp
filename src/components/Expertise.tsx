@@ -30,10 +30,16 @@ const InfinityPattern = () => (
   </svg>
 )
 
+const waveformHeights = [
+  { id: 'w-a', h: 3 }, { id: 'w-b', h: 5 }, { id: 'w-c', h: 8 }, { id: 'w-d', h: 4 },
+  { id: 'w-e', h: 12 }, { id: 'w-f', h: 16 }, { id: 'w-g', h: 12 }, { id: 'w-h', h: 6 },
+  { id: 'w-i', h: 14 }, { id: 'w-j', h: 8 }, { id: 'w-k', h: 5 }, { id: 'w-l', h: 3 },
+]
+
 const WaveformPattern = () => (
   <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-30 text-surface-900 px-4 mt-8">
-    {[3, 5, 8, 4, 12, 16, 12, 6, 14, 8, 5, 3].map((h, i) => (
-      <div key={i} className="w-2 bg-current rounded-full" style={{ height: `${h * 4}px` }} />
+    {waveformHeights.map((bar) => (
+      <div key={bar.id} className="w-2 bg-current rounded-full" style={{ height: `${bar.h * 4}px` }} />
     ))}
   </div>
 )
@@ -49,53 +55,80 @@ const CapsulePattern = () => (
   </svg>
 )
 
-const marqueeWords = ['VENDAS', 'ESTRATÉGIA', 'OTIMIZAÇÃO', 'CRESCIMENTO', 'RESULTADOS', 'ESCALAR', 'INOVAÇÃO', 'LUCRO']
+const baseMarqueeWords = ['VENDAS', 'ESTRATÉGIA', 'OTIMIZAÇÃO', 'CRESCIMENTO', 'RESULTADOS', 'ESCALAR', 'INOVAÇÃO', 'LUCRO']
+const marqueeItems = Array.from({ length: 4 }, (_, rep) =>
+  baseMarqueeWords.map((word) => ({ id: `${word}-${rep}`, word }))
+).flat()
 
 export default function Expertise() {
   const sectionRef = useRef<HTMLElement>(null)
   const marqueeRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
-    // Heading animation
-    gsap.from('.expertise-heading', {
-      opacity: 0,
-      y: 60,
-      duration: 1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.expertise-heading',
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
+    // Promove GPU layer antes das animações iniciarem
+    gsap.set(['.expertise-heading', '.expertise-subtitle', '.expertise-card'], {
+      willChange: 'transform, opacity',
+      force3D: true,
     })
 
-    // Subtitle animation
-    gsap.from('.expertise-subtitle', {
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-      delay: 0.2,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.expertise-subtitle',
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-    })
+    // Heading animation — fluido e lento, reinicia ao sair e voltar
+    gsap.fromTo('.expertise-heading',
+      { opacity: 0, y: 90 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.7,
+        ease: 'expo.out',
+        force3D: true,
+        onComplete: () => gsap.set('.expertise-heading', { clearProps: 'willChange' }),
+        scrollTrigger: {
+          trigger: '.expertise-heading',
+          start: 'top 88%',
+          toggleActions: 'play none none reset',
+        },
+      }
+    )
 
-    // Cards animation
-    gsap.from('.expertise-card', {
-      opacity: 0,
-      y: 60,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'back.out(1.2)',
-      scrollTrigger: {
-        trigger: '.expertise-grid',
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-      },
-    })
+    // Subtitle animation — entra depois do heading com suavidade
+    gsap.fromTo('.expertise-subtitle',
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.5,
+        delay: 0.25,
+        ease: 'power4.out',
+        force3D: true,
+        onComplete: () => gsap.set('.expertise-subtitle', { clearProps: 'willChange' }),
+        scrollTrigger: {
+          trigger: '.expertise-subtitle',
+          start: 'top 88%',
+          toggleActions: 'play none none reset',
+        },
+      }
+    )
+
+    // Cards — somente fade-in um a um, sem movimento
+    gsap.fromTo('.expertise-card',
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 1.8,
+        overwrite: 'auto',
+        stagger: {
+          amount: 1.6,
+          from: 'start',
+          ease: 'power1.inOut',
+        },
+        ease: 'power2.out',
+        onComplete: () => gsap.set('.expertise-card', { clearProps: 'willChange' }),
+        scrollTrigger: {
+          trigger: '.expertise-grid',
+          start: 'top 84%',
+          toggleActions: 'play none none reset',
+        },
+      }
+    )
 
     // Marquee GSAP-powered infinite scroll
     const marqueeInner = marqueeRef.current
@@ -103,23 +136,24 @@ export default function Expertise() {
       gsap.to(marqueeInner, {
         xPercent: -50,
         ease: 'none',
-        duration: 20,
+        duration: 28,
         repeat: -1,
+        force3D: true,
       })
     }
   }, { scope: sectionRef })
 
   return (
-    <section ref={sectionRef} id="expertise" className="relative overflow-hidden bg-surface py-20 md:py-32">
+    <section ref={sectionRef} id="expertise" className="relative overflow-hidden bg-[#130624] py-20 md:py-32">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-neon-green/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-neon-purple/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Grid pattern background */}
       <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        className="absolute inset-0 opacity-[0.05] pointer-events-none"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
           backgroundSize: '60px 60px',
         }}
       />
@@ -127,25 +161,25 @@ export default function Expertise() {
       <div className="container-custom relative z-10 px-4 md:px-6">
         {/* Header */}
         <div className="text-center max-w-5xl mx-auto mb-16 md:mb-24">
-          <h2 className="expertise-heading font-heading text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold italic text-surface-900 leading-[1.05] tracking-tight mb-6">
-            ESCALE, E CONQUISTE
+          <h2 className="expertise-heading font-heading text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold italic text-white leading-[1.05] tracking-tight mb-6">
+            ESCALE E CONQUISTE
             <br className="hidden sm:block" />
             COM NOSSA{' '}
-            <span className="inline-flex items-center align-middle mx-2">
-              <span className="imgg" style={{ zIndex: 3 }}>
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" alt="Consultor" className="w-10 h-10 md:w-14 md:h-14 object-cover" />
+            <span className="inline-flex items-center align-middle mx-2 p-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+              <span className="imgg -mr-2" style={{ zIndex: 3 }}>
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" alt="Consultor" className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full border-2 border-[#130624]" />
               </span>
-              <span className="imgg" style={{ zIndex: 2 }}>
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" alt="Consultor" className="w-10 h-10 md:w-14 md:h-14 object-cover" />
+              <span className="imgg -mr-2" style={{ zIndex: 2 }}>
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" alt="Consultora" className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full border-2 border-[#130624]" />
               </span>
               <span className="imgg" style={{ zIndex: 1 }}>
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" alt="Consultor" className="w-10 h-10 md:w-14 md:h-14 object-cover" />
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" alt="Consultor" className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full border-2 border-[#130624]" />
               </span>
             </span>{' '}
             EXPERTISE
           </h2>
 
-          <p className="expertise-subtitle text-muted text-base md:text-lg max-w-2xl mx-auto leading-relaxed mt-8">
+          <p className="expertise-subtitle text-white/80 text-base md:text-xl max-w-2xl mx-auto leading-relaxed mt-8 font-medium">
             Conte com o nosso auxílio para otimizar sua operação de ecommerce no Mercado Livre, esteja ela iniciando ou já em pleno funcionamento.
           </p>
         </div>
@@ -155,11 +189,12 @@ export default function Expertise() {
 
           {/* Column 1 */}
           <div className="flex-1 flex flex-col justify-end lg:pb-24">
-            <div className="expertise-card bg-neon-purple/10 text-surface-900 p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-b from-neon-purple/20 to-transparent opacity-50"></div>
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight">Melhoria de Anúncios<br />e Otimização</h3>
-                  <span className="text-sm font-semibold mt-6 block opacity-70">01</span>
+                  <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-md">Melhoria de Anúncios<br />e Otimização</h3>
+                  <span className="text-sm font-bold mt-6 block text-neon-green">01</span>
                 </div>
               </div>
               <PatternTriangles />
@@ -168,22 +203,23 @@ export default function Expertise() {
 
           {/* Column 2 */}
           <div className="flex-1 flex flex-col gap-4 md:gap-5">
-            <div className="expertise-card bg-neon-purple/20 text-surface-900 p-6 md:p-8 rounded-[2rem] h-[280px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="expertise-card bg-neon-purple text-white p-6 md:p-8 rounded-[2rem] h-[280px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-[0_0_30px_rgba(147,51,234,0.3)]">
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent"></div>
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight">Assessoria Completa<br />para Vendedores</h3>
-                  <span className="text-sm font-semibold mt-6 block opacity-70">02</span>
+                  <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-md">Assessoria Completa<br />para Vendedores</h3>
+                  <span className="text-sm font-bold mt-6 block text-white/80">02</span>
                 </div>
               </div>
               <StarPattern />
             </div>
-            <div className="expertise-card bg-surface-800 text-white p-6 md:p-8 rounded-[2rem] h-[360px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[360px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
               <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop" alt="Team working" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#130624]/90 via-[#130624]/40 to-transparent" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight shadow-black drop-shadow-md">Estratégias Sob Medida<br />para Crescer</h3>
-                  <span className="text-sm font-semibold mt-6 block opacity-80 drop-shadow-md">05</span>
+                  <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-lg">Estratégias Sob Medida<br />para Crescer</h3>
+                  <span className="text-sm font-bold mt-6 block text-neon-green drop-shadow-md">05</span>
                 </div>
               </div>
             </div>
@@ -191,21 +227,22 @@ export default function Expertise() {
 
           {/* Column 3 */}
           <div className="flex-1 flex flex-col gap-4 md:gap-5 lg:pt-16">
-            <div className="expertise-card bg-surface-800 text-white p-6 md:p-8 rounded-[2rem] h-[400px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
-              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" alt="Professional with headset" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[400px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" alt="Professional with headset" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05] mix-blend-luminosity opacity-80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#130624] via-[#130624]/50 to-transparent" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight shadow-black drop-shadow-md">Transformando Desafios<br />em Oportunidades</h3>
-                  <span className="text-sm font-semibold mt-6 block opacity-80 drop-shadow-md">03</span>
+                  <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-lg">Transformando Desafios<br />em Oportunidades</h3>
+                  <span className="text-sm font-bold mt-6 block text-neon-green/90 drop-shadow-md">03</span>
                 </div>
               </div>
             </div>
-            <div className="expertise-card bg-neon-purple/30 text-surface-900 p-6 md:p-8 rounded-[2rem] h-[220px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[220px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-green/10 to-transparent opacity-50"></div>
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div className="flex justify-between items-start">
-                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight pr-2">Inovação e Estratégia,<br />Garantindo Sucesso</h3>
-                  <span className="text-sm font-semibold opacity-70">07</span>
+                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight pr-2 drop-shadow-md">Inovação e Estratégia,<br />Garantindo Sucesso</h3>
+                  <span className="text-sm font-bold text-neon-green">07</span>
                 </div>
                 <WaveformPattern />
               </div>
@@ -214,22 +251,23 @@ export default function Expertise() {
 
           {/* Column 4 */}
           <div className="flex-1 flex flex-col gap-4 md:gap-5">
-            <div className="expertise-card bg-neon-purple text-white p-6 md:p-8 rounded-[2rem] h-[320px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[320px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-bl from-neon-purple/30 to-transparent opacity-80"></div>
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight">Consultoria Especializada,<br />Resultados Mensuráveis</h3>
-                  <span className="text-sm font-semibold mt-6 block opacity-70">04</span>
+                  <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-md">Consultoria Especializada,<br />Resultados Mensuráveis</h3>
+                  <span className="text-sm font-bold mt-6 block text-neon-purple">04</span>
                 </div>
               </div>
               <InfinityPattern />
             </div>
-            <div className="expertise-card bg-surface-800 text-white p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop" alt="Professional looking at laptop" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop" alt="Professional looking at laptop" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05] mix-blend-luminosity opacity-80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#130624]/95 via-[#130624]/40 to-transparent" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading text-xl lg:text-[1.35rem] font-bold leading-tight shadow-black drop-shadow-md">Desbloqueie o Potencial<br />da sua Operação</h3>
-                  <span className="text-sm font-semibold mt-6 block opacity-80 drop-shadow-md">06</span>
+                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight drop-shadow-lg">Desbloqueie o Potencial<br />da sua Operação</h3>
+                  <span className="text-sm font-bold mt-6 block text-neon-green drop-shadow-md">06</span>
                 </div>
               </div>
             </div>
@@ -237,11 +275,12 @@ export default function Expertise() {
 
           {/* Column 5 */}
           <div className="flex-1 flex flex-col justify-center lg:pt-16 lg:pb-8">
-            <div className="expertise-card bg-surface-200 text-surface-900 p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="expertise-card bg-neon-green text-[#130624] p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-[0_0_30px_rgba(0,224,116,0.2)]">
+              <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent"></div>
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight">Navegando ao Sucesso<br />com Estratégias<br />Comprovadas</h3>
-                  <span className="text-sm font-semibold mt-6 block opacity-70">08</span>
+                  <h3 className="font-heading text-xl lg:text-3xl font-extrabold leading-tight">Navegando ao Sucesso<br />com Estratégias<br />Comprovadas</h3>
+                  <span className="text-sm font-bold mt-6 block opacity-80">08</span>
                 </div>
               </div>
               <CapsulePattern />
@@ -252,14 +291,14 @@ export default function Expertise() {
       </div>
 
       {/* Bottom Marquee */}
-      <div className="relative py-6 md:py-8 border-y border-surface-200/20 bg-surface-50/20 overflow-hidden mt-20">
+      <div className="relative py-6 md:py-8 border-y border-white/10 bg-[#130624] overflow-hidden mt-20 shadow-[0_0_50px_rgba(147,51,234,0.1)]">
         <div ref={marqueeRef} className="flex whitespace-nowrap">
-          {[...marqueeWords, ...marqueeWords, ...marqueeWords, ...marqueeWords].map((word, i) => (
-            <span key={i} className="flex items-center gap-4 sm:gap-6 mx-4 sm:mx-6">
-              <span className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-wider text-surface-300/60 hover:text-neon-green transition-colors duration-300 cursor-default">
-                {word}
+          {marqueeItems.map((item) => (
+            <span key={item.id} className="flex items-center gap-4 sm:gap-6 mx-4 sm:mx-6">
+              <span className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-wider text-white/40 hover:text-neon-green hover:opacity-100 transition-all duration-300 cursor-default">
+                {item.word}
               </span>
-              <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-neon-green/30" />
+              <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-neon-purple shadow-[0_0_10px_rgba(147,51,234,0.8)]" />
             </span>
           ))}
         </div>
