@@ -5,15 +5,25 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Decorative SVG components
+// ─── Animation constants ──────────────────────────────────────────────────────
+const TOGGLE_RESET = 'play none none reset'
+const TRIGGER_TOP = 'top 88%'
+const WILL_CHANGE = 'willChange'
+
+const SEL_HEADING  = '.expertise-heading'
+const SEL_SUBTITLE = '.expertise-subtitle'
+const SEL_CARD     = '.expertise-card'
+const SEL_GRID     = '.expertise-grid'
+
+// ─── Decorative SVG components ───────────────────────────────────────────────
 const PatternTriangles = () => (
-  <svg className="absolute bottom-[-10%] left-[-10%] w-[120%] h-[80%] opacity-20 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <svg aria-hidden="true" className="absolute bottom-[-10%] left-[-10%] w-[120%] h-[80%] opacity-20 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
     <path d="M0 100 L50 40 L100 100 Z M50 40 L100 -20 L150 40 Z M-50 40 L0 -20 L50 40 Z M25 70 L75 70 L50 100 Z M75 70 L125 70 L100 100 Z M-25 70 L25 70 L0 100 Z" fill="currentColor" />
   </svg>
 )
 
 const StarPattern = () => (
-  <svg className="absolute inset-0 w-full h-full opacity-10 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <svg aria-hidden="true" className="absolute inset-0 w-full h-full opacity-10 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
     <path d="M20 20 L22 15 L27 15 L23 12 L25 7 L20 10 L15 7 L17 12 L13 15 L18 15 Z" fill="currentColor" />
     <path d="M80 20 L82 15 L87 15 L83 12 L85 7 L80 10 L75 7 L77 12 L73 15 L78 15 Z" fill="currentColor" />
     <path d="M50 60 L54 50 L64 50 L56 44 L60 34 L50 40 L40 34 L44 44 L36 50 L46 50 Z" fill="currentColor" />
@@ -23,7 +33,7 @@ const StarPattern = () => (
 )
 
 const InfinityPattern = () => (
-  <svg className="absolute inset-0 w-full h-full opacity-20 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <svg aria-hidden="true" className="absolute inset-0 w-full h-full opacity-20 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
     <path d="M20 50 C20 30, 40 30, 50 50 C60 70, 80 70, 80 50 C80 30, 60 30, 50 50 C40 70, 20 70, 20 50" fill="none" stroke="currentColor" strokeWidth="4" />
     <path d="M20 70 C20 50, 40 50, 50 70 C60 90, 80 90, 80 70 C80 50, 60 50, 50 70 C40 90, 20 90, 20 70" fill="none" stroke="currentColor" strokeWidth="4" />
     <path d="M20 30 C20 10, 40 10, 50 30 C60 50, 80 50, 80 30 C80 10, 60 10, 50 30 C40 50, 20 50, 20 30" fill="none" stroke="currentColor" strokeWidth="4" />
@@ -37,7 +47,7 @@ const waveformHeights = [
 ]
 
 const WaveformPattern = () => (
-  <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-30 text-surface-900 px-4 mt-8">
+  <div aria-hidden="true" className="absolute inset-0 flex items-center justify-center gap-2 opacity-30 text-surface-900 px-4 mt-8">
     {waveformHeights.map((bar) => (
       <div key={bar.id} className="w-2 bg-current rounded-full" style={{ height: `${bar.h * 4}px` }} />
     ))}
@@ -45,7 +55,7 @@ const WaveformPattern = () => (
 )
 
 const CapsulePattern = () => (
-  <svg className="absolute inset-0 w-full h-full opacity-15 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <svg aria-hidden="true" className="absolute inset-0 w-full h-full opacity-15 text-surface-900" viewBox="0 0 100 100" preserveAspectRatio="none">
     <rect x="10" y="20" width="30" height="15" rx="7.5" fill="none" stroke="currentColor" strokeWidth="2" />
     <rect x="50" y="20" width="40" height="15" rx="7.5" fill="none" stroke="currentColor" strokeWidth="2" />
     <rect x="10" y="45" width="50" height="15" rx="7.5" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -60,86 +70,69 @@ const marqueeItems = Array.from({ length: 4 }, (_, rep) =>
   baseMarqueeWords.map((word) => ({ id: `${word}-${rep}`, word }))
 ).flat()
 
+// ─── Animation helpers ────────────────────────────────────────────────────────
+function animateHeading() {
+  gsap.fromTo(SEL_HEADING,
+    { opacity: 0, y: 90 },
+    {
+      opacity: 1, y: 0,
+      duration: 1.7,
+      ease: 'expo.out',
+      force3D: true,
+      onComplete: () => { gsap.set(SEL_HEADING, { clearProps: WILL_CHANGE }) },
+      scrollTrigger: { trigger: SEL_HEADING, start: TRIGGER_TOP, toggleActions: TOGGLE_RESET },
+    }
+  )
+}
+
+function animateSubtitle() {
+  gsap.fromTo(SEL_SUBTITLE,
+    { opacity: 0, y: 50 },
+    {
+      opacity: 1, y: 0,
+      duration: 1.5,
+      delay: 0.25,
+      ease: 'power4.out',
+      force3D: true,
+      onComplete: () => { gsap.set(SEL_SUBTITLE, { clearProps: WILL_CHANGE }) },
+      scrollTrigger: { trigger: SEL_SUBTITLE, start: TRIGGER_TOP, toggleActions: TOGGLE_RESET },
+    }
+  )
+}
+
+function animateCards() {
+  gsap.fromTo(SEL_CARD,
+    { opacity: 0 },
+    {
+      opacity: 1,
+      duration: 1.8,
+      overwrite: 'auto',
+      stagger: { amount: 1.6, from: 'start', ease: 'power1.inOut' },
+      ease: 'power2.out',
+      onComplete: () => { gsap.set(SEL_CARD, { clearProps: WILL_CHANGE }) },
+      scrollTrigger: { trigger: SEL_GRID, start: 'top 84%', toggleActions: TOGGLE_RESET },
+    }
+  )
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 export default function Expertise() {
   const sectionRef = useRef<HTMLElement>(null)
   const marqueeRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
-    // Promove GPU layer antes das animações iniciarem
-    gsap.set(['.expertise-heading', '.expertise-subtitle', '.expertise-card'], {
+    gsap.set([SEL_HEADING, SEL_SUBTITLE, SEL_CARD], {
       willChange: 'transform, opacity',
       force3D: true,
     })
 
-    // Heading animation — fluido e lento, reinicia ao sair e voltar
-    gsap.fromTo('.expertise-heading',
-      { opacity: 0, y: 90 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.7,
-        ease: 'expo.out',
-        force3D: true,
-        onComplete: () => gsap.set('.expertise-heading', { clearProps: 'willChange' }),
-        scrollTrigger: {
-          trigger: '.expertise-heading',
-          start: 'top 88%',
-          toggleActions: 'play none none reset',
-        },
-      }
-    )
+    animateHeading()
+    animateSubtitle()
+    animateCards()
 
-    // Subtitle animation — entra depois do heading com suavidade
-    gsap.fromTo('.expertise-subtitle',
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.5,
-        delay: 0.25,
-        ease: 'power4.out',
-        force3D: true,
-        onComplete: () => gsap.set('.expertise-subtitle', { clearProps: 'willChange' }),
-        scrollTrigger: {
-          trigger: '.expertise-subtitle',
-          start: 'top 88%',
-          toggleActions: 'play none none reset',
-        },
-      }
-    )
-
-    // Cards — somente fade-in um a um, sem movimento
-    gsap.fromTo('.expertise-card',
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 1.8,
-        overwrite: 'auto',
-        stagger: {
-          amount: 1.6,
-          from: 'start',
-          ease: 'power1.inOut',
-        },
-        ease: 'power2.out',
-        onComplete: () => gsap.set('.expertise-card', { clearProps: 'willChange' }),
-        scrollTrigger: {
-          trigger: '.expertise-grid',
-          start: 'top 84%',
-          toggleActions: 'play none none reset',
-        },
-      }
-    )
-
-    // Marquee GSAP-powered infinite scroll
     const marqueeInner = marqueeRef.current
     if (marqueeInner) {
-      gsap.to(marqueeInner, {
-        xPercent: -50,
-        ease: 'none',
-        duration: 28,
-        repeat: -1,
-        force3D: true,
-      })
+      gsap.to(marqueeInner, { xPercent: -50, ease: 'none', duration: 28, repeat: -1, force3D: true })
     }
   }, { scope: sectionRef })
 
@@ -190,7 +183,7 @@ export default function Expertise() {
           {/* Column 1 */}
           <div className="flex-1 flex flex-col justify-end lg:pb-24">
             <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-b from-neon-purple/20 to-transparent opacity-50"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-neon-purple/20 to-transparent opacity-50" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
                   <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-md">Melhoria de Anúncios<br />e Otimização</h3>
@@ -204,7 +197,7 @@ export default function Expertise() {
           {/* Column 2 */}
           <div className="flex-1 flex flex-col gap-4 md:gap-5">
             <div className="expertise-card bg-neon-purple text-white p-6 md:p-8 rounded-[2rem] h-[280px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-[0_0_30px_rgba(147,51,234,0.3)]">
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
                   <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-md">Assessoria Completa<br />para Vendedores</h3>
@@ -238,7 +231,7 @@ export default function Expertise() {
               </div>
             </div>
             <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[220px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-neon-green/10 to-transparent opacity-50"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-green/10 to-transparent opacity-50" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div className="flex justify-between items-start">
                   <h3 className="font-heading text-xl lg:text-2xl font-bold leading-tight pr-2 drop-shadow-md">Inovação e Estratégia,<br />Garantindo Sucesso</h3>
@@ -252,7 +245,7 @@ export default function Expertise() {
           {/* Column 4 */}
           <div className="flex-1 flex flex-col gap-4 md:gap-5">
             <div className="expertise-card bg-surface-900 border border-white/10 text-white p-6 md:p-8 rounded-[2rem] h-[320px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-bl from-neon-purple/30 to-transparent opacity-80"></div>
+              <div className="absolute inset-0 bg-gradient-to-bl from-neon-purple/30 to-transparent opacity-80" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
                   <h3 className="font-heading text-xl lg:text-3xl font-bold leading-tight drop-shadow-md">Consultoria Especializada,<br />Resultados Mensuráveis</h3>
@@ -276,7 +269,7 @@ export default function Expertise() {
           {/* Column 5 */}
           <div className="flex-1 flex flex-col justify-center lg:pt-16 lg:pb-8">
             <div className="expertise-card bg-neon-green text-[#130624] p-6 md:p-8 rounded-[2rem] h-[340px] relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-[0_0_30px_rgba(0,224,116,0.2)]">
-              <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
                   <h3 className="font-heading text-xl lg:text-3xl font-extrabold leading-tight">Navegando ao Sucesso<br />com Estratégias<br />Comprovadas</h3>
@@ -306,4 +299,3 @@ export default function Expertise() {
     </section>
   )
 }
-
