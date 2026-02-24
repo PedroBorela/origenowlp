@@ -18,7 +18,7 @@ export default function App() {
     <div className="min-h-screen bg-surface text-surface-900 relative">
       {/* Grain texture overlay */}
       <div className="grain-overlay" />
-      <CustomCursor />
+      {/* <CustomCursor /> */}
       <KineticNav />
       <Hero />
       <Marquee />

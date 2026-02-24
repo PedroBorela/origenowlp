@@ -17,44 +17,39 @@ export default function Features() {
 
       <div className="container-custom relative z-10">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left: Visual - Bento style */}
-          <div className="lg:col-span-5">
-            <div className="relative">
-              {/* Main visual card */}
-              <div className="bento-card aspect-[4/5] relative overflow-hidden">
-                {/* Ambient glow inside */}
-                <div className="absolute top-0 right-0 w-40 h-40 bg-neon-purple/20 rounded-full blur-[60px]" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-neon-green/15 rounded-full blur-[60px]" />
+          {/* Left: iPhone Mockup */}
+          <div className="lg:col-span-5 lg:-ml-6 xl:-ml-12">
+            <div className="relative flex items-center justify-center lg:-translate-x-6 xl:-translate-x-16">
+              {/* Ambient glow behind phone */}
+              <div className="absolute w-72 h-72 bg-neon-purple/15 rounded-full blur-[90px]" />
+              <div className="absolute w-48 h-48 bg-neon-green/10 rounded-full blur-[60px] -translate-x-8 translate-y-10" />
 
-                <div className="relative z-10 h-full flex flex-col justify-between">
-                  <div>
-                    <div className="flex gap-2 mb-6">
-                      <div className="w-3 h-3 rounded-full bg-neon-green/60" />
-                      <div className="w-3 h-3 rounded-full bg-neon-purple/60" />
-                      <div className="w-3 h-3 rounded-full bg-surface-300" />
-                    </div>
-                    <div className="space-y-3">
-                      <div className="h-3 bg-surface-200 rounded-full w-3/4" />
-                      <div className="h-3 bg-surface-200 rounded-full w-1/2" />
-                      <div className="h-8 bg-neon-green/10 border border-neon-green/20 rounded-xl mt-4 w-full" />
-                      <div className="h-8 bg-neon-purple/10 border border-neon-purple/20 rounded-xl w-5/6" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-surface-200/50 rounded-xl p-4 text-center">
-                      <span className="text-2xl font-heading font-extrabold text-neon-green">97%</span>
-                      <p className="text-muted text-[10px] mt-1">Satisfação</p>
-                    </div>
-                    <div className="bg-surface-200/50 rounded-xl p-4 text-center">
-                      <span className="text-2xl font-heading font-extrabold text-neon-purple">51k</span>
-                      <p className="text-muted text-[10px] mt-1">Pedidos</p>
-                    </div>
-                  </div>
-                </div>
+              {/* iPhone 15 Pro — floating + stacked layers */}
+              {/* ↓ TAMANHO DO IPHONE — altere maxWidth para aumentar/diminuir */}
+              <div
+                className="relative z-10 w-full animate-float"
+                style={{ maxWidth: 640, aspectRatio: '1 / 1' }}
+              >
+                {/* Layer 1: purple screen background */}
+                <img
+                  src="/iphone-color2.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover overflow-hidden"
+                  style={{ objectPosition: 'center' }}
+                />
+
+                {/* Layer 2: phone chrome frame (transparent over screen) */}
+                <img
+                  src="/iphone-frame2.png"
+                  alt="iPhone 15 Pro com app Origenow"
+                  className="absolute inset-0 w-full h-full object-cover z-20"
+                  style={{ objectPosition: 'center' }}
+                />
               </div>
 
               {/* Floating badge */}
-              <div className="absolute -top-3 -right-3 glass-card px-4 py-2 animate-float z-20">
+              <div className="absolute top-6 -right-2 lg:-right-4 glass-card px-4 py-2 animate-float z-20">
                 <span className="text-neon-green text-xs font-heading font-bold">+ 135 vendas/dia</span>
               </div>
             </div>
